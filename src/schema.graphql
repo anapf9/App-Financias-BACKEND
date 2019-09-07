@@ -2,10 +2,12 @@
 Informações a serem expostas
 """
 type Query {
+	accounts: [Account!]!
 	user: User
 }
 
 type Mutation {
+	createAccount(description: String!): Account!
 	login(email: String!, password: String!): AuthPayload
 	singup(email: String!, password: String!, name: String!): AuthPayload
 }
@@ -18,4 +20,10 @@ type User {
 	id: ID!
 	name: String!
 	email: String!
+}
+
+type Account {
+	id: ID!
+	user: User
+	description: String!
 }
