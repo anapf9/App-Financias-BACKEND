@@ -1,6 +1,12 @@
 const { GraphQLServer } = require("graphql-yoga");
+const Binding = require("prisma-binding");
 const { prisma } = require("./generated/prisma-client"); // capturando o prisma via "destructure assingment"
 //com isso já há acesso na camada de dados
+
+const binding = new Binding.Prisma({
+	typeDefs: `${__dirname}/generated/graphql-schema/prisma.graphql`,
+	endpoint: process.env.PRISMA_ENDPOINT
+});
 
 // No Graphql trabalha-se com tipo, onde os tipos tem seus "campos", e campos possuem "resolvers"
 // resolver são funções que implementam uma lógica para devolver valores para os campos
@@ -8,7 +14,14 @@ const resolvers = {
 	// mapeia a estrutura que esta no shema.graphql
 	Query: {
 		user(parent, args, context, info) {
-			return prisma.user({ id: args.id });
+			/* 			return prisma.user({ id: args.id }).then(user => {
+				console.log("user:", user);
+				return user;
+      }); */
+			return binding.query.user({ where: { id: args.id } }, info).then(user => {
+				console.log("user:", user);
+				return user;
+			});
 		}
 	}
 };
