@@ -2,7 +2,7 @@
 Informações a serem expostas
 """
 type Query {
-	user(id: ID!): User
+	user: User
 }
 
 type Mutation {
