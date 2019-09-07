@@ -1,17 +1,21 @@
 {
-  "name": "vue-finances-back",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/index"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "graphql-yoga": "1.17.4",
-    "prisma-client-lib": "1.28.3"
-  }
+	"name": "vue-finances-back",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node src/index",
+		"dev": "npx nodemon --delay 1000ms --ext js,graphql src/index"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"graphql-yoga": "1.17.4",
+		"prisma-client-lib": "1.28.3"
+	},
+	"devDependencies": {
+		"nodemon": "1.18.10"
+	}
 }
