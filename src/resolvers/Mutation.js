@@ -3,12 +3,31 @@ const jwt = require("jsonwebtoken");
 const { getUserId } = require("./../utils");
 
 const JWT_SECRET = process.env.JWT_SECRET;
+
 async function createAccount(_, { description }, ctx, info) {
 	const userId = getUserId(ctx);
 	return ctx.db.mutation.createAccount(
 		{
 			data: {
 				description,
+				user: {
+					connect: {
+						id: userId
+					}
+				}
+			}
+		},
+		info
+	);
+}
+
+function createCategory(_, { description, operation }, ctx, info) {
+	const userId = getUserId(ctx);
+	return ctx.db.mutation.createCategory(
+		{
+			data: {
+				description,
+				operation,
 				user: {
 					connect: {
 						id: userId
@@ -56,6 +75,7 @@ async function singup(_, args, ctx, info) {
 
 module.exports = {
 	createAccount,
+	createCategory,
 	login,
 	singup
 };
