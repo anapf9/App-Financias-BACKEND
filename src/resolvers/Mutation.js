@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const moment = require("moment");
 const { getUserId } = require("./../utils");
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -33,6 +34,38 @@ function createCategory(_, { description, operation }, ctx, info) {
 						id: userId
 					}
 				}
+			}
+		},
+		info
+	);
+}
+
+function createRecord(_, args, ctx, info) {
+	const date = moment(args.date); //YY-MM-DD
+
+	if (!date.isValid()) {
+		throw new Error("Invalid date");
+	}
+	const userId = getUserId(ctx);
+	return ctx.db.mutation.createRecord(
+		{
+			data: {
+				user: {
+					connect: { id: userId }
+				},
+				account: {
+					connect: { id: args.accountId }
+				},
+				category: {
+					connect: { id: args.categoryId }
+				},
+				///...args
+				amount: args.amount,
+				type: args.type,
+				date: args.date,
+				description: args.description,
+				tags: args.tags,
+				note: args.note
 			}
 		},
 		info
@@ -76,6 +109,7 @@ async function singup(_, args, ctx, info) {
 module.exports = {
 	createAccount,
 	createCategory,
+	createRecord,
 	login,
 	singup
 };
