@@ -4,6 +4,9 @@ const { prisma } = require("./generated/prisma-client"); // capturando o prisma 
 //com isso já há acesso na camada de dados
 
 const resolvers = require("./resolvers");
+
+const env = process.env;
+const endpoint = `${env.PRISMA_ENDPOINT}/${env.PRISMA_SERVICE}/${env.PRISMA_STAGE}`;
 // mapeia a estrutura que esta no shema.graphql
 
 /* const binding = new Binding.Prisma({
@@ -21,7 +24,7 @@ const server = new GraphQLServer({
 		...request,
 		db: new Binding.Prisma({
 			typeDefs: `${__dirname}/generated/graphql-schema/prisma.graphql`,
-			endpoint: process.env.PRISMA_ENDPOINT
+			endpoint
 		}),
 		prisma
 	})

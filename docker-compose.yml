@@ -6,13 +6,15 @@ services:
     ports:
       - "4000:4000"
     environment:
-      PRISMA_ENDPOINT: http://prisma:4466/${PRISMA_SERVICE}/${PRISMA_STAGE}
+      PRISMA_ENDPOINT: http://prisma:4466
       JWT_SECRET: ${JWT_SECRET}
       PRISMA_SERVICE: ${PRISMA_SERVICE}
       PRISMA_STAGE: ${PRISMA_STAGE}
     command: npm run dev
     volumes:
       - .:/usr/app
+    networks:
+      - postgres-network
 
   prisma:
     image: prismagraphql/prisma:1.28
@@ -30,6 +32,7 @@ services:
             user: prisma
             password: prisma
             migrations: true
+            rawAccess: true
     networks:
       - postgres-network
 
